@@ -10,6 +10,7 @@ import {
 import { Navbar } from "./components/navbar";
 import {Login} from "./pages/Login"
 import {Register} from "./pages/Register"
+import { Graph } from "./pages/Graphs";
 
 export function AppRoutes() {
 
@@ -20,6 +21,8 @@ export function AppRoutes() {
           <Route path="/" element={<Navbar />}>
             <Route path="/login" element={<Login/>} />
             <Route path="/register" element={<Register/>} />
+            <Route path="/estatisticas" element={<Graph/>} />
+
           </Route>
         </Routes>
       </Router >
