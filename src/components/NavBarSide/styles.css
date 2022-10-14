@@ -1,0 +1,11 @@
+.root{
+    height: 100vh;
+    background-color: #c8f5e8;
+}
+
+.appbar{
+    flex-grow: 1;
+    flex-basis: 218px; 
+    max-width: 218px;
+    background-color: #80EACA
+}

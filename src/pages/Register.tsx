@@ -49,14 +49,17 @@ export function Register() {
    }
 
    return (
-      <div>
-         <Container component="main" maxWidth="xs" sx={{ marginTop: 10 }}>
+         <Container component="main" maxWidth="sm" sx={{ display: "flex",flex: 1, justifyContent:"center", alignItems:"center" }}>
             <Box
                sx={{
-                  marginTop: 8,
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
+                  padding:'40px',
+                  border: 1.5,
+                  borderRadius: 4,
+                  borderColor: '#80EACA',
+                  bgcolor: '#fff'
                }}
             >
                <Typography variant='h5'>Cadastro</Typography>
@@ -77,6 +80,5 @@ export function Register() {
             </Box>
             <SnackAlert open = {open} setOpen = {setOpen} message = {snack.message} type= {snack.type}/>
          </Container>
-      </div>
    )
 }

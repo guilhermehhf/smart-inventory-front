@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import {
   Tooltip,
   Bar,
@@ -59,12 +59,24 @@ export function Graph() {
   ];
 
   return (
-    <div>
-      <Box component="main" maxWidth="xs" sx={{ marginTop: 10, bgcolor: 'secondary.light'}}>
+    <Container component="main" maxWidth="sm" sx={{ display: "flex", flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding:'40px',
+          border: 1.5,
+          borderRadius: 4,
+          borderColor: '#80EACA',
+          bgcolor: '#fff'
+        }}
+      >
+        <Typography>Bar Chart</Typography>
         <BarChart width={730} height={250} data={data}>
-          
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name"><Label value="Pages of my website" offset={0} position="top" /></XAxis>
+          <XAxis dataKey="name"></XAxis>
           <YAxis />
           <Tooltip />
           <Legend />
@@ -87,6 +99,6 @@ export function Graph() {
           <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
         </LineChart>
       </Box>
-    </div>
+    </Container>
   );
 }
