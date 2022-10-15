@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Campo } from "../components/campo";
+import { Campo } from "../../components/campo";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { myFetch } from '../utils/request.js';
-import { Regex } from '../utils/regex.js'
-import { SnackAlert } from '../components/alert'
+import { myFetch } from '../../utils/request.js';
+import { Regex } from '../../utils/regex.js'
+import { SnackAlert } from '../../components/alert'
 
 const regex = new Regex()
 

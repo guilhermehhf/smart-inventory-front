@@ -5,7 +5,6 @@ export class Regex{
     }
     public minMaxTest(min:number, max:number, campo:string): boolean{
         const minMax = new RegExp("^.{" + min + "," + max + "}$")
-        // const minMaxRegex = /^.{min,max}$/
         return minMax.test(campo)
     }
     

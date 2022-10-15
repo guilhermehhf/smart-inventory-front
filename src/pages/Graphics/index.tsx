@@ -12,7 +12,7 @@ import {
   Label,
 } from "recharts";
 
-export function Graph() {
+export function Graphics() {
   const data = [
     {
       name: "Page A",

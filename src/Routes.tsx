@@ -3,15 +3,16 @@ import { CssBaseline } from "@mui/material";
 import {
   BrowserRouter as Router,
   Routes,
-  Route,
+  Route
 
 } from "react-router-dom";
 
-import { Navbar } from "./components/navbar";
 import { Login } from "./pages/Login"
 import { Register } from "./pages/Register"
-import { Graph } from "./pages/Graphs";
-import { NavBar } from "./components/NavBarSide"
+import { Graphics } from "./pages/Graphics";
+import { NavBar } from "./components/NavBar"
+import { RegisterProduct } from "./pages/RegisterProduct"
+import { RegisterTransaction } from "./pages/RegisterTransaction"
 
 export function AppRoutes() {
 
@@ -22,7 +23,10 @@ export function AppRoutes() {
           <Route path="/" element={<NavBar/>}>
             <Route path="/login" element={<Login/>} />
             <Route path="/register" element={<Register/>} />
-            <Route path="/estatisticas" element={<Graph/>} />
+            <Route path="/graficos" element={<Graphics/>} />
+            <Route path="/register/product" element={<RegisterProduct/>} />
+            <Route path="/register/transaction" element={<RegisterTransaction/>} />
+
           </Route>
         </Routes>
       </Router >
