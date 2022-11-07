@@ -4,9 +4,10 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { myFetch } from '../../utils/request.js';
+import { postRequest } from '../../services/requests.js';
 import { Regex } from '../../utils/regex.js'
 import { SnackAlert } from '../../components/alert'
+import { SelectLabels } from "../../components/SelectItem";
 
 const regex2 = new Regex()
 
@@ -32,9 +33,9 @@ export function RegisterProduct() {
    function onSubmit(ev: React.FormEvent<HTMLFormElement>) {
       ev.preventDefault()
       console.log(campos)
-      const nameTest = regex2.emailTest(campos['name'])
-      const quantityTest = regex2.minMaxTest(6, 12, campos['quantity'])
-      const typeTest = regex2.minMaxTest(6, 12, campos['type'])
+      const nameTest = regex2.minMaxTest(4,25,campos['name'])
+      const quantityTest = regex2.minMaxTest(4,25, campos['quantity'])
+      const typeTest = regex2.minMaxTest(4,25, campos['type'])
 
       if (nameTest && quantityTest && typeTest) {
          setSnack({ message: 'Produto adicionado com sucesso!', type: 'success' })
@@ -68,10 +69,10 @@ export function RegisterProduct() {
                   noValidate
                   autoComplete="off"
                >
-
+                  <Campo text='Código do Produto' onChange={onChange} />
                   <Campo text='Name' onChange={onChange} />
-                  <Campo text='Quantity' onChange={onChange} />
-                  <Campo text='Type' onChange={onChange} />
+                  <SelectLabels endpoint='/inventoryCategory/' label='Categorias' onChange={onChange} />
+                  <Campo text='Marca' onChange={onChange} />
                   <Button sx={{ mt: 3, mb: 2 }} variant="contained" type="submit" fullWidth>Register</Button>
                </Box>
             </Box>

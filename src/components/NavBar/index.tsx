@@ -29,6 +29,11 @@ export const NavBar: React.FunctionComponent = () => {
       icon: <PaidIcon/>,
       link: "/register/transaction",
     },
+    {
+      title: "Cadastrar Categoria",
+      icon: <PaidIcon/>,
+      link: "/register/category",
+    },
   ];
   return (
     <div>

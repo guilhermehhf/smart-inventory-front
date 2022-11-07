@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { myFetch } from '../../utils/request.js';
+import { postRequest } from '../../services/requests.js';
 import { Regex } from '../../utils/regex.js'
 import { SnackAlert } from '../../components/alert'
 
@@ -41,7 +41,7 @@ export function Register() {
 
       if (emailTest && nomeTest && senhaTest && confirmarSenhaTest) {
          setSnack({message: 'Usuário criado com sucesso',type: 'success'})
-         myFetch(`http://localhost:8081/users/${campos['nome']}/${campos['email']}/${campos['senha']}`, 'POST')
+         postRequest(`/users/${campos['nome']}/${campos['email']}/${campos['senha']}`)
       }else{
          setSnack({message: 'Algum dos campos está inválido!',type: 'error'})
       }
@@ -75,7 +75,7 @@ export function Register() {
                   <Campo text='Email' onChange={onChange} />
                   <Campo text='Senha' onChange={onChange} type='password' />
                   <Campo text='Confirmar Senha' onChange={onChange} type='password' />
-                  <Button sx={{ mt: 3, mb: 2 }} variant="contained" type="submit" fullWidth>Cadastrar-se</Button>
+                  <Button sx={{ mt: 3, mb: 2 }} variant="contained" type="submit" fullWidth>Cadastrar</Button>
                </Box>
             </Box>
             <SnackAlert open = {open} setOpen = {setOpen} message = {snack.message} type= {snack.type}/>

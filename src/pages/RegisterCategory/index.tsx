@@ -4,22 +4,20 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { getRequest } from '../../services/requests.js';
+import { postRequestCategory } from '../../services/requests.js';
 import { Regex } from '../../utils/regex.js'
 import { SnackAlert } from '../../components/alert'
-import zIndex from "@mui/material/styles/zIndex";
 
 const regex2 = new Regex()
 
-export function Login() {
+export function RegisterCategory() {
    const [open, setOpen] = useState(false);
    const [snack, setSnack] = useState({
       message: '',
       type: ''
    })
    const [campos, setCampos] = useState({
-      email: '',
-      senha: '',
+      name: '',
    })
 
    function onChange(ev: React.FormEvent<HTMLInputElement>) {
@@ -32,21 +30,27 @@ export function Login() {
    function onSubmit(ev: React.FormEvent<HTMLFormElement>) {
       ev.preventDefault()
       console.log(campos)
-      const emailTest = regex2.emailTest(campos['email'])
-      const senhaTest = regex2.minMaxTest(6, 12, campos['senha'])
+      const nameTest = regex2.minMaxTest(4,25,campos['name'])
 
-      if (emailTest && senhaTest) {
-         setSnack({ message: 'Usuário logado com sucesso!', type: 'success' })
-         getRequest(`/users/${campos['email']}/${campos['senha']}`)
+      if (nameTest) {
+        postRequestCategory(`/inventoryCategory/`, campos.name )
+          .then((response) => {
+            console.log("categoria: ", response.data);
+            if(response.status == 201){
+                setSnack({ message: 'Categoria adicionada com sucesso!', type: 'success' })
+            }else{
+                setSnack({ message: response.data, type: 'error' })
+            }
+          })
+          .catch((error) => console.log(error));
+         
       } else {
-         setSnack({ message: 'Email ou senha inválidos', type: 'error' })
+         setSnack({ message: 'Todos os campos precisam ser preenchidos', type: 'error' })
       }
       setOpen(true)
    }
 
    return (
-
-
          <Container component="main" maxWidth="sm" sx={{  display: "flex", flex: 1, justifyContent:"center", alignItems:"center" }}>
             <Box
                sx={{
@@ -60,7 +64,7 @@ export function Login() {
                   bgcolor: '#fff'
                }}
             >
-               <Typography variant='h5'>Login</Typography>
+               <Typography variant='h5'>Register Category</Typography>
                <Box
                   onSubmit={onSubmit}
                   component="form"
@@ -68,14 +72,11 @@ export function Login() {
                   noValidate
                   autoComplete="off"
                >
-
-                  <Campo text='Email' onChange={onChange} />
-                  <Campo text='Senha' onChange={onChange} type='password' />
-                  <Button sx={{ mt: 3, mb: 2 }} variant="contained" type="submit" fullWidth>Entrar</Button>
+                  <Campo text='Name' onChange={onChange} />
+                  <Button sx={{ mt: 3, mb: 2 }} variant="contained" type="submit" fullWidth>Register</Button>
                </Box>
             </Box>
             <SnackAlert open={open} setOpen={setOpen} message={snack.message} type={snack.type} />
          </Container>
-
    )
 }

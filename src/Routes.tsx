@@ -13,6 +13,7 @@ import { Graphics } from "./pages/Graphics";
 import { NavBar } from "./components/NavBar"
 import { RegisterProduct } from "./pages/RegisterProduct"
 import { RegisterTransaction } from "./pages/RegisterTransaction"
+import { RegisterCategory } from "./pages/RegisterCategory";
 
 export function AppRoutes() {
 
@@ -26,7 +27,7 @@ export function AppRoutes() {
             <Route path="/graficos" element={<Graphics/>} />
             <Route path="/register/product" element={<RegisterProduct/>} />
             <Route path="/register/transaction" element={<RegisterTransaction/>} />
-
+            <Route path="/register/category" element={<RegisterCategory/>} />
           </Route>
         </Routes>
       </Router >

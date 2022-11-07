@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Campo } from "../../components/campo";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -12,21 +12,13 @@ import dayjs, { Dayjs } from "dayjs";
 import { TextField } from "@mui/material";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { Categoria } from "../../@types/types";
 
 const regex2 = new Regex();
 
-export function RegisterTransaction() {
+export function RegisterShipment() {
   var today = new Date();
-  console.log(today)
-  const [value, setValue] = React.useState<Dayjs | null>(
-    dayjs(today.getDay()+"/"+today.getMonth()+"/"+today.getFullYear())
-  );
-
-  const handleChange = (newValue: Dayjs | null) => {
-    setValue(newValue);
-  };
-
-
+  const [categorias, setCategorias] = useState<Categoria[]>()
   const [open, setOpen] = useState(false);
   const [snack, setSnack] = useState({
     message: "",
@@ -34,9 +26,67 @@ export function RegisterTransaction() {
   });
   const [campos, setCampos] = useState({
     name: "",
-    quantity: "",
+    quantity: 0,
     type: "",
   });
+  const [value, setValue] = React.useState<Dayjs | null>(
+    dayjs(today.getDay()+"/"+today.getMonth()+"/"+today.getFullYear())
+  );
+  
+
+
+  
+
+
+  useEffect(() => {
+    async function apiCalls() {
+      getRequest(`/inventoryCategory/`)
+        .then((response) => {
+          console.log("categorias: ", response.data);
+          setCategorias(response.data);
+        })
+        .catch((error) => console.log(error));
+    }
+    apiCalls();
+    
+  }, []);
+
+
+  let categoriaInput = ''
+  let categoriaPosMatch=[];
+  useEffect(() => {
+    if(categorias){
+      for(let i=0; categorias.length>i;i++){
+        let res = categorias[i].nome.startsWith(categoriaInput)
+        if(res){
+            categoriaPosMatch.push(i);
+        }
+      }
+    }
+  }, [categoriaInput]);
+
+  
+  let productInput = ''
+  let productPosMatch=[];
+  useEffect(() => {
+    if(categorias){
+      for(let i=0; categorias.length>i;i++){
+        let res = categorias[i].nome.startsWith(productInput)
+        if(res){
+          productPosMatch.push(i);
+        }
+      }
+    }
+  }, [productInput]);
+
+
+
+  
+
+  
+  const handleChange = (newValue: Dayjs | null) => {
+    setValue(newValue);
+  };
 
   function onChange(ev: React.FormEvent<HTMLInputElement>) {
     let { id, value } = ev.currentTarget;
@@ -48,11 +98,11 @@ export function RegisterTransaction() {
   function onSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     console.log(campos);
-    const nameTest = regex2.emailTest(campos["name"]);
-    const quantityTest = regex2.minMaxTest(6, 12, campos["quantity"]);
-    const typeTest = regex2.minMaxTest(6, 12, campos["type"]);
+    const nameTest = regex2.minMaxTest(4, 25, campos["name"]);
+    const quantityTest = campos["quantity"];
+    const typeTest = regex2.minMaxTest(4, 25, campos["type"]);
 
-    if (nameTest && quantityTest && typeTest) {
+    if (nameTest && quantityTest != 0 && typeTest) {
       setSnack({ message: "Produto adicionado com sucesso!", type: "success" });
     } else {
       setSnack({
