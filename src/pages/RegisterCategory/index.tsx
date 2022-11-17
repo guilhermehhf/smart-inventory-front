@@ -33,16 +33,16 @@ export function RegisterCategory() {
       const nameTest = regex2.minMaxTest(4,25,campos['name'])
 
       if (nameTest) {
-        postRequestCategory(`/inventoryCategory/`, campos.name )
+        postRequestCategory(campos.name)
           .then((response) => {
             console.log("categoria: ", response.data);
-            if(response.status == 201){
-                setSnack({ message: 'Categoria adicionada com sucesso!', type: 'success' })
-            }else{
-                setSnack({ message: response.data, type: 'error' })
-            }
+            setSnack({ message: 'Categoria adicionada com sucesso!', type: 'success' })
+            
           })
-          .catch((error) => console.log(error));
+          .catch((error) =>{
+            setSnack({ message: 'Houve um erro com o banco de dados e a Categoria não foi adicionada!', type: 'error' })
+            console.log(error)
+          } );
          
       } else {
          setSnack({ message: 'Todos os campos precisam ser preenchidos', type: 'error' })

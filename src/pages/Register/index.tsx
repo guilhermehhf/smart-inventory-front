@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { postRequest } from '../../services/requests.js';
+import { postRequest, postRequestUser } from '../../services/requests.js';
 import { Regex } from '../../utils/regex.js'
 import { SnackAlert } from '../../components/alert'
 
@@ -40,8 +40,15 @@ export function Register() {
       const confirmarSenhaTest = campos['senha'] == campos['confirmarsenha']
 
       if (emailTest && nomeTest && senhaTest && confirmarSenhaTest) {
-         setSnack({message: 'Usuário criado com sucesso',type: 'success'})
-         postRequest(`/users/${campos['nome']}/${campos['email']}/${campos['senha']}`)
+         postRequestUser(campos['email'], campos['senha'])
+         .then((response) => {
+               setSnack({message: 'Usuário criado com sucesso',type: 'success'})
+               console.log("user: ", response.data);
+         })
+         .catch((error) => {
+            console.log(error)
+            setSnack({message: 'Problema no banco!',type: 'error'})
+         });
       }else{
          setSnack({message: 'Algum dos campos está inválido!',type: 'error'})
       }

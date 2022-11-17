@@ -34,19 +34,22 @@ export const NavBar: React.FunctionComponent = () => {
       icon: <PaidIcon/>,
       link: "/register/category",
     },
+    {
+      title: "Cadastrar Remessa",
+      icon: <PaidIcon/>,
+      link: "/register/shipment",
+    },
   ];
   return (
-    <div>
-      {/* <div className="topbar">
-        <h1>Logo</h1>
-        <h1>Login</h1>
-      </div> */}
+    <>
       <div className="container">
         <div className="sidebar">
         <div className="user-picture"></div>
-        <div className="user-name">Heyy</div>
+        <a href="">
+          <span className="user-name">Teste</span>
+        </a>
+       
           <ul className="sidebar-list">
-          
             {SidebarElements.map((val, key) => {
               return (
                 <li
@@ -68,6 +71,6 @@ export const NavBar: React.FunctionComponent = () => {
           <Outlet />
         </div>
       </div>
-    </div>
+    </>
   );
 };

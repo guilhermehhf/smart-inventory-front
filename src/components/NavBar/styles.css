@@ -23,14 +23,26 @@
 
     width:100px;
     height:100px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.229);
     border-radius: 50%;
     box-shadow: 2px 2px 10px;
     margin: 15px;
 }
+a {
+    text-decoration: none;
+}
 .user-name{
     color: white;
     font-weight: bold;
+    background-color: rgba(23, 179, 135, 0.502);
+    padding: 0.4rem 1.5rem 0.4rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 2px 2px 10px black;
+    transition: background-color 0.5s ease-out;
+}
+.user-name:hover{
+    background-color: #13946F;
+
 }
 .sidebar {
     display: flex;

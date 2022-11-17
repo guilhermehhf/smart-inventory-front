@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { postRequest } from '../../services/requests.js';
+import { postRequest, postRequestProduct } from '../../services/requests.js';
 import { Regex } from '../../utils/regex.js'
 import { SnackAlert } from '../../components/alert'
 import { SelectLabels } from "../../components/SelectItem";
@@ -18,14 +18,13 @@ export function RegisterProduct() {
       type: ''
    })
    const [campos, setCampos] = useState({
-      name: '',
-      quantity: '',
-      type: ''
+      nome: '',
+      códigodoproduto: '',
+      marca: ''
    })
 
    function onChange(ev: React.FormEvent<HTMLInputElement>) {
       let { id, value } = ev.currentTarget
-
       setCampos({ ...campos, [id]: value })
       console.log(campos)
    }
@@ -33,15 +32,25 @@ export function RegisterProduct() {
    function onSubmit(ev: React.FormEvent<HTMLFormElement>) {
       ev.preventDefault()
       console.log(campos)
-      const nameTest = regex2.minMaxTest(4,25,campos['name'])
-      const quantityTest = regex2.minMaxTest(4,25, campos['quantity'])
-      const typeTest = regex2.minMaxTest(4,25, campos['type'])
+      const nameTest = regex2.minMaxTest(4,25,campos['nome'])
+      const codigoDoProdutoTest = regex2.minMaxTest(4,32, campos['códigodoproduto'])
+      const marcaTest = regex2.minMaxTest(4,25, campos['marca'])
 
-      if (nameTest && quantityTest && typeTest) {
-         setSnack({ message: 'Produto adicionado com sucesso!', type: 'success' })
-      } else {
-         setSnack({ message: 'Todos os campos precisam ser preenchidos', type: 'error' })
-      }
+      if (nameTest && codigoDoProdutoTest && marcaTest) {
+         postRequestProduct(campos.nome, campos.códigodoproduto, campos.marca)
+         .then((response) => {
+           console.log("Produto: ", response.data);
+           setSnack({ message: 'Produto adicionado com sucesso!', type: 'success' })
+           
+         })
+         .catch((error) =>{
+           setSnack({ message: 'Houve um erro com o banco de dados e o Produto não foi adicionada!', type: 'error' })
+           console.log(error)
+         } );
+        
+     } else {
+        setSnack({ message: 'Todos os campos precisam ser preenchidos', type: 'error' })
+     }
       setOpen(true)
    }
 
@@ -70,7 +79,7 @@ export function RegisterProduct() {
                   autoComplete="off"
                >
                   <Campo text='Código do Produto' onChange={onChange} />
-                  <Campo text='Name' onChange={onChange} />
+                  <Campo text='Nome' onChange={onChange} />
                   <SelectLabels endpoint='/inventoryCategory/' label='Categorias' onChange={onChange} />
                   <Campo text='Marca' onChange={onChange} />
                   <Button sx={{ mt: 3, mb: 2 }} variant="contained" type="submit" fullWidth>Register</Button>

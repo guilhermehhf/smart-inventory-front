@@ -9,28 +9,39 @@ import { Categoria } from '../../@types/types';
 export function SelectLabels(props: { endpoint:string , label:string, onChange: any }) {
    //Atualizar com o banco posteriormente
    const [data, setData] = useState<Categoria[]>();
-
+   const names = [
+      'Oliver Hansen',
+      'Van Henry',
+      'April Tucker',
+      'Ralph Hubbard',
+      'Omar Alexander',
+      'Carlos Abbott',
+      'Miriam Wagner',
+      'Bradley Wilkerson',
+      'Virginia Andrews',
+      'Kelly Snyder',
+    ];
    useEffect(() => {
-      async function apiCalls() {
-        getRequest(`${props.endpoint}`)
-          .then((response) => {
-            console.log("categorias: ", response.data);
-            setData(response.data);
-          })
-          .catch((error) => console.log(error));
-      }
-      apiCalls();
+      // async function apiCalls() {
+      //   getRequest(`${props.endpoint}`)
+      //     .then((response) => {
+      //       console.log("categorias: ", response.data);
+      //       setData(response.data);
+      //     })
+      //     .catch((error) => console.log(error));
+      // }
+      // apiCalls();
+
     }, []);
 
    return (
-      <>
+      <>{data && (
          <FormControl
             margin="normal"
             fullWidth
             required
          >
             <InputLabel id="Label">{props.label}</InputLabel>
-            {data &&(
             <Select
                labelId="obra"
                id="obraSelect"
@@ -43,8 +54,9 @@ export function SelectLabels(props: { endpoint:string , label:string, onChange: 
                   ))
                }
             </Select>
-            )}
          </FormControl>
+      )}
+         
       </>
    );
 }

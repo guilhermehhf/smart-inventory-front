@@ -28,7 +28,7 @@ export function SnackAlert(props:SnackAlertType ) {
 
     return (
     <div>
-        <Snackbar open={props.open} onClose={handleClose}>
+        <Snackbar autoHideDuration={5000} open={props.open} onClose={handleClose}>
             <Alert onClose={handleClose} severity={props.type as AlertColor || 'warning'} sx={{ width: '100%' }}>
                 {props.message}
             </Alert>
