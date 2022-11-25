@@ -3,34 +3,34 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useEffect, useState } from 'react';
-import { getRequest } from '../../services/requests';
+import { getRequestList } from '../../services/requests';
 import { Categoria } from '../../@types/types';
 
 export function SelectLabels(props: { endpoint:string , label:string, onChange: any }) {
+
+   const ITEM_HEIGHT = 48;
+   const ITEM_PADDING_TOP = 8;
+   const MenuProps = {
+   PaperProps: {
+      style: {
+         maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+         width: 250,
+      },
+   },
+   id: 'categoria'
+   };
    //Atualizar com o banco posteriormente
    const [data, setData] = useState<Categoria[]>();
-   const names = [
-      'Oliver Hansen',
-      'Van Henry',
-      'April Tucker',
-      'Ralph Hubbard',
-      'Omar Alexander',
-      'Carlos Abbott',
-      'Miriam Wagner',
-      'Bradley Wilkerson',
-      'Virginia Andrews',
-      'Kelly Snyder',
-    ];
    useEffect(() => {
-      // async function apiCalls() {
-      //   getRequest(`${props.endpoint}`)
-      //     .then((response) => {
-      //       console.log("categorias: ", response.data);
-      //       setData(response.data);
-      //     })
-      //     .catch((error) => console.log(error));
-      // }
-      // apiCalls();
+      async function apiCalls() {
+        getRequestList(`${props.endpoint}`)
+          .then((response) => {
+            console.log("categorias: ", response.data);
+            setData(response.data);
+          })
+          .catch((error) => console.log(error));
+      }
+      apiCalls();
 
     }, []);
 
@@ -43,14 +43,19 @@ export function SelectLabels(props: { endpoint:string , label:string, onChange: 
          >
             <InputLabel id="Label">{props.label}</InputLabel>
             <Select
-               labelId="obra"
-               id="obraSelect"
-               label="Obra"
+               defaultValue=""
+               labelId={props.label}
+               id={props.label+'Select'}
+               label={props.label}
                onChange={props.onChange}
+               MenuProps={MenuProps}
             >
+               <MenuItem disabled value="">
+                  <em>Categoria</em>
+               </MenuItem>
                {
                   data.map(element=>(
-                     <MenuItem value={element.nome}>{element.nome}</MenuItem>
+                     <MenuItem key={element._id}value={element._id}>{element.nome}</MenuItem>
                   ))
                }
             </Select>

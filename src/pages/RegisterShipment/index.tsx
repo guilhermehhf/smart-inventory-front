@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { getRequest } from "../../services/requests.js";
+import { getRequestList } from "../../services/requests.js";
 import { Regex } from "../../utils/regex.js";
 import { SnackAlert } from "../../components/alert";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -42,7 +42,7 @@ export function RegisterShipment() {
 
   useEffect(() => {
     async function apiCalls() {
-      getRequest(`/inventoryCategory/`)
+      getRequestList(`/inventoryCategory/`)
         .then((response) => {
           console.log("categorias: ", response.data);
           setCategorias(response.data);

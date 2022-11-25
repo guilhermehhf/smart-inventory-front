@@ -1,5 +1,5 @@
 export interface Produto {
-    id: number;
+    _id: number;
     codigoDoProduto: string;
     nome: string;
     categoriaRef: Categoria;
@@ -8,7 +8,7 @@ export interface Produto {
 }
 
 export interface Categoria {
-    id: number;
+    _id: number;
     nome: string;
     produtosRemessa: Remessa;
     produtos:Produto[];
