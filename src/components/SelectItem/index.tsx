@@ -35,7 +35,7 @@ export function SelectLabels(props: { endpoint:string , label:string, onChange: 
     }, []);
 
    return (
-      <>{data && (
+      <>
          <FormControl
             margin="normal"
             fullWidth
@@ -53,14 +53,14 @@ export function SelectLabels(props: { endpoint:string , label:string, onChange: 
                <MenuItem disabled value="">
                   <em>Categoria</em>
                </MenuItem>
-               {
+               {data && (
                   data.map(element=>(
                      <MenuItem key={element._id}value={element._id}>{element.nome}</MenuItem>
                   ))
-               }
+               )}
             </Select>
          </FormControl>
-      )}
+      
          
       </>
    );
