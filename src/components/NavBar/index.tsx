@@ -25,9 +25,9 @@ export const NavBar: React.FunctionComponent = () => {
       link: "/register/product",
     },
     {
-      title: "Cadastrar Transações",
+      title: "Cadastrar Venda",
       icon: <PaidIcon/>,
-      link: "/register/transaction",
+      link: "/register/sale",
     },
     {
       title: "Cadastrar Categoria",
@@ -46,7 +46,7 @@ export const NavBar: React.FunctionComponent = () => {
         <div className="sidebar">
         <div className="user-picture"></div>
         <a href="">
-          <span className="user-name">Teste</span>
+          <span className="user-name">dev</span>
         </a>
        
           <ul className="sidebar-list">

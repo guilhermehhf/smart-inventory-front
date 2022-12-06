@@ -7,7 +7,8 @@ import Container from '@mui/material/Container';
 import { postRequest, postRequestProduct } from '../../services/requests.js';
 import { Regex } from '../../utils/regex.js'
 import { SnackAlert } from '../../components/alert'
-import { SelectLabels } from "../../components/SelectItem";
+import { SelectLabelsCategory } from "../../components/SelectItemCategory";
+import { SelectChangeEvent } from "@mui/material";
 
 const regex2 = new Regex()
 
@@ -20,13 +21,19 @@ export function RegisterProduct() {
    const [campos, setCampos] = useState({
       nome: '',
       códigodoproduto: '',
-      marca: ''
+      marca: '',
+      categoria: ''
    })
 
    function onChange(ev: React.FormEvent<HTMLInputElement>) {
       let { id, value } = ev.currentTarget
       setCampos({ ...campos, [id]: value })
       console.log(campos)
+   }
+
+   function onChangeCategoria(ev: SelectChangeEvent) {
+      console.log(ev.target.value)
+      setCampos({ ...campos, ['categoria']: ev.target.value })
    }
 
    function onSubmit(ev: React.FormEvent<HTMLFormElement>) {
@@ -37,7 +44,7 @@ export function RegisterProduct() {
       const marcaTest = regex2.minMaxTest(4,25, campos['marca'])
 
       if (nameTest && codigoDoProdutoTest && marcaTest) {
-         postRequestProduct(campos.nome, campos.códigodoproduto, campos.marca)
+         postRequestProduct(campos.nome, campos.códigodoproduto, campos.marca, campos.categoria)
          .then((response) => {
            console.log("Produto: ", response.data);
            setSnack({ message: 'Produto adicionado com sucesso!', type: 'success' })
@@ -80,7 +87,7 @@ export function RegisterProduct() {
                >
                   <Campo text='Código do Produto' onChange={onChange} />
                   <Campo text='Nome' onChange={onChange} />
-                  <SelectLabels endpoint='/inventoryCategory/' label='Categorias' onChange={onChange} />
+                  <SelectLabelsCategory endpoint='/inventoryCategory/' label='Categorias' onChange={onChangeCategoria} />
                   <Campo text='Marca' onChange={onChange} />
                   <Button sx={{ mt: 3, mb: 2 }} variant="contained" type="submit" fullWidth>Register</Button>
                </Box>

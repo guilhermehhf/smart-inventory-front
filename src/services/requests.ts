@@ -15,7 +15,9 @@ export async function deleteRequestById(endpoint: string, id: string) {
     return await api.delete(endpoint+"?id="+id)
 }
 
-
+export async function getRequestUser(endpoint: string) {
+    return await api.get(endpoint)
+}
 
 export async function postRequestUser(email: string, senha: string) {
     return await api.post('/users/', {
@@ -24,18 +26,28 @@ export async function postRequestUser(email: string, senha: string) {
     })
 }
 
-export async function postRequestProduct(nome: string, codigoDoProduto: string, marca: string) {
+export async function postRequestProduct(nome: string, codigoDoProduto: string, marca: string, categoriaId: string) {
     return await api.post('/products/', {
         "nome": nome,
         "codigoDoProduto": codigoDoProduto,
         "marca": marca,
-        "categoriaReferencia": "6375efd34154183c6771b073"
+        "categoriaReferencia": categoriaId
     })
 }
 
 export async function postRequestCategory( nome: string) {
     return await api.post('/inventoryCategory/', {
         "nome": nome
+    })
+}
+
+export async function postRequestShipment( produto_id: string, qtdComprada: number, qtdAtual: number, data: Date, precoUnid: number) {
+    return await api.post('/shipment/', {
+        "refProduto": produto_id,
+        "qtdComprada": qtdComprada,
+        "qtdAtual": qtdAtual,
+        "dataAquisicao": data,
+        "precoUnit": precoUnid,
     })
 }
 

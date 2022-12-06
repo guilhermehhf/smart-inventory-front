@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { getRequest } from '../../services/requests.js';
+import { getRequestUser } from '../../services/requests.js';
 import { Regex } from '../../utils/regex.js'
 import { SnackAlert } from '../../components/alert'
 import zIndex from "@mui/material/styles/zIndex";
@@ -36,9 +36,17 @@ export function Login() {
       const senhaTest = regex2.minMaxTest(6, 12, campos['senha'])
 
       if (emailTest && senhaTest) {
-         setSnack({ message: 'Usuário logado com sucesso!', type: 'success' })
-         getRequest(`/users/${campos['email']}/${campos['senha']}`)
-      } else {
+         getRequestUser(`/users?email=${campos['email']}&senha=${campos['senha']}`)
+         .then((response) => {
+            console.log("User: ", response.data);
+            setSnack({ message: 'Usuário logado com sucesso!', type: 'success' })
+            
+          })
+          .catch((error) =>{
+            setSnack({ message: 'Email ou senha inválidos', type: 'error' })
+            console.log(error)
+          } );
+      } else { 
          setSnack({ message: 'Email ou senha inválidos', type: 'error' })
       }
       setOpen(true)

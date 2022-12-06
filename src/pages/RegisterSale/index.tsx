@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { getRequest } from "../../services/requests.js";
+// import { getRequest } from "../../services/requests.js";
 import { Regex } from "../../utils/regex.js";
 import { SnackAlert } from "../../components/alert";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -15,9 +15,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 
 const regex2 = new Regex();
 
-export function RegisterTransaction() {
+export function RegisterSale() {
   var today = new Date();
-  console.log(today)
   const [value, setValue] = React.useState<Dayjs | null>(
     dayjs(today.getDay()+"/"+today.getMonth()+"/"+today.getFullYear())
   );
@@ -89,7 +88,7 @@ export function RegisterTransaction() {
           bgcolor: "#fff",
         }}
       >
-        <Typography variant="h5">Register Transaction</Typography>
+        <Typography variant="h5">Register Sale</Typography>
         <Box
           onSubmit={onSubmit}
           component="form"
@@ -97,9 +96,7 @@ export function RegisterTransaction() {
           noValidate
           autoComplete="off"
         >
-          <Campo text="Name" onChange={onChange} />
-          <Campo text="Type" onChange={onChange} />
-
+          <Campo text="Comprador" onChange={onChange} />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DesktopDatePicker
                 label="Date"
