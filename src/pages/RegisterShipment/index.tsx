@@ -4,84 +4,85 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { getRequestList } from "../../services/requests.js";
+import { getRequestList, postRequestShipment } from "../../services/requests.js";
 import { Regex } from "../../utils/regex.js";
 import { SnackAlert } from "../../components/alert";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import dayjs, { Dayjs } from "dayjs";
-import { InputLabel, Select, TextField } from "@mui/material";
+import { InputLabel, Select, SelectChangeEvent, TextField } from "@mui/material";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { Categoria, Produto } from "../../@types/types";
-import { SelectLabels } from "../../components/SelectItem";
+import { SelectLabelsCategory } from "../../components/SelectItemCategory";
+import { SelectLabelsProduct } from "../../components/SelectItemProduct";
 
 const regex2 = new Regex();
 
 export function RegisterShipment() {
   var today = new Date();
-  const [categorias, setCategorias] = useState<Categoria[]>()
-  const [produtos, setProdutos] = useState<Produto[]>()
   const [open, setOpen] = useState(false);
+
   const [snack, setSnack] = useState({
     message: "",
     type: "",
   });
+
   const [campos, setCampos] = useState({
-    name: "",
-    quantity: 0,
-    type: "",
+    preço: 0,
+    produto: '',
+    quantidadecomprada: 0,
+    quantidadeatual: 0,
+    data: new Date()
+    
   });
+
   const [value, setValue] = React.useState<Dayjs | null>(
     dayjs(today.getDay()+"/"+today.getMonth()+"/"+today.getFullYear())
   );
   
 
-
-  
-
-
-  useEffect(() => {
-    async function apiCalls() {
-      getRequestList(`/inventoryCategory/`)
-        .then((response) => {
-          console.log("categorias: ", response.data);
-          setCategorias(response.data);
-        })
-        .catch((error) => console.log(error));
-    }
-    apiCalls();
+  // useEffect(() => {
+  //   async function apiCalls() {
+  //     getRequestList(`/inventoryCategory/`)
+  //       .then((response) => {
+  //         console.log("categorias: ", response.data);
+  //         setCategorias(response.data);
+  //       })
+  //       .catch((error) => console.log(error));
+  //   }
+  //   apiCalls();
     
-  }, []);
+  // }, []);
 
 
 
-  let categoriaInput = ''
-  let categoriaPosMatch=[];
-  useEffect(() => {
-    if(categorias){
-      for(let i=0; categorias.length>i;i++){
-        let res = categorias[i].nome.startsWith(categoriaInput)
-        if(res){
-            categoriaPosMatch.push(i);
-        }
-      }
-    }
-  }, [categoriaInput]);
+  // let categoriaInput = ''
+  // let categoriaPosMatch=[];
+  // useEffect(() => {
+  //   if(categorias){
+  //     for(let i=0; categorias.length>i;i++){
+  //       let res = categorias[i].nome.startsWith(categoriaInput)
+  //       if(res){
+  //           categoriaPosMatch.push(i);
+  //       }
+  //     }
+  //   }
+  // }, [categoriaInput]);
 
 
 
-  let productInput = ''
-  let productPosMatch=[];
-  useEffect(() => {
-    if(categorias){
-      for(let i=0; categorias.length>i;i++){
-        let res = categorias[i].nome.startsWith(productInput)
-        if(res){
-          productPosMatch.push(i);
-        }
-      }
-    }
-  }, [productInput]);
+  // let productInput = ''
+  // let productPosMatch=[];
+  // useEffect(() => {
+  //   if(categorias){
+  //     for(let i=0; categorias.length>i;i++){
+  //       let res = categorias[i].nome.startsWith(productInput)
+  //       if(res){
+  //         productPosMatch.push(i);
+  //       }
+  //     }
+  //   }
+  // }, [productInput]);
 
 
 
@@ -92,12 +93,9 @@ export function RegisterShipment() {
     setValue(newValue);
   };
 
-  function CategoriaOnChange(ev: React.FormEvent<HTMLInputElement>) {
-    // let { id, value } = ev.currentTarget;
-    console.log(ev.currentTarget);
-    // categoriaInput = value;
-    console.log(categoriaInput)
-    // console.log(id, value);
+  function onChangeProduto(ev: SelectChangeEvent) {
+    console.log(ev.target.value)
+    setCampos({ ...campos, ['produto']: ev.target.value })
   }
 
   function onChange(ev: React.FormEvent<HTMLInputElement>) {
@@ -112,18 +110,24 @@ export function RegisterShipment() {
     ev.preventDefault();
     console.log(campos);
 
+    const produtoTest = campos.produto != ''
+    const preçoTest = campos["preço"] > 0;
+    const quantidadeCompradaTest = campos["quantidadecomprada"] > 0;
+    const quantidadeAtualTest = campos["quantidadeatual"] >= campos["quantidadecomprada"];
 
-    const nameTest = regex2.minMaxTest(4, 25, campos["name"]);
-    const quantityTest = campos["quantity"];
-    const typeTest = regex2.minMaxTest(4, 25, campos["type"]);
-
-    if (nameTest && quantityTest != 0 && typeTest) {
-      setSnack({ message: "Produto adicionado com sucesso!", type: "success" });
+    if (produtoTest && preçoTest && quantidadeCompradaTest && quantidadeAtualTest) {
+      postRequestShipment(campos.produto, campos.quantidadecomprada, campos.quantidadeatual, campos.data, campos["preço"])
+         .then((response) => {
+           console.log("Remessa: ", response.data);
+           setSnack({ message: 'Remessa adicionada com sucesso!', type: 'success' })
+           
+         })
+         .catch((error) =>{
+           setSnack({ message: 'Houve um erro com o banco de dados e o Remessa não foi adicionada!', type: 'error' })
+           console.log(error)
+         } );
     } else {
-      setSnack({
-        message: "Todos os campos precisam ser preenchidos",
-        type: "error",
-      });
+        setSnack({ message: 'Todos os campos precisam ser preenchidos', type: 'error' })
     }
     setOpen(true);
   }
@@ -162,36 +166,28 @@ export function RegisterShipment() {
           noValidate
           autoComplete="off"
         >
-          <SelectLabels endpoint='/inventoryCategory/' label='Categorias' onChange={CategoriaOnChange}></SelectLabels>
-          {categorias && (
-            <>
-            <Campo text="Name" onChange={onChange} />
-            <Campo text="Type" onChange={onChange} />
-            <Campo text="Categoria" onChange={CategoriaOnChange} />
-
-
-
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker
-                  label="Date"
-                  inputFormat="MM/DD/YYYY"
-                  value={value}
-                  onChange={handleChange}
-                  renderInput={(params) => <TextField {...params} fullWidth required margin="normal"/>}
-                  
-              />
-            </LocalizationProvider>
-            <Button
-              sx={{ mt: 3, mb: 2 }}
-              variant="contained"
-              type="submit"
-              fullWidth
-            >
-              Register
-            </Button>
-            </>
-          )}
-          
+          <SelectLabelsProduct endpoint='/products/' label='Produtos' onChange={onChangeProduto}></SelectLabelsProduct>
+          <Campo text="Preço" onChange={onChange} type="number"/>
+          <Campo text="Quantidade Comprada" onChange={onChange} type="number"/>
+          <Campo text="Quantidade Atual" onChange={onChange} type="number"/>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DesktopDatePicker
+                label="Date"
+                inputFormat="MM/DD/YYYY"
+                value={value}
+                onChange={handleChange}
+                renderInput={(params) => <TextField {...params} fullWidth required margin="normal"/>}
+            />
+          </LocalizationProvider>
+          <Button
+            sx={{ mt: 3, mb: 2 }}
+            variant="contained"
+            type="submit"
+            fullWidth
+          >
+            Register
+          </Button>
+            
         </Box>
       </Box>
       <SnackAlert

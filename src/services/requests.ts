@@ -41,6 +41,16 @@ export async function postRequestCategory( nome: string) {
     })
 }
 
+export async function postRequestShipment( produto_id: string, qtdComprada: number, qtdAtual: number, data: Date, precoUnid: number) {
+    return await api.post('/shipment/', {
+        "refProduto": produto_id,
+        "qtdComprada": qtdComprada,
+        "qtdAtual": qtdAtual,
+        "dataAquisicao": data,
+        "precoUnit": precoUnid,
+    })
+}
+
 export async function postRequest(endpoint: string) {
     return await api.post(endpoint, {
     })

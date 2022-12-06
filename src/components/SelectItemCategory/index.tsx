@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { getRequestList } from '../../services/requests';
 import { Categoria } from '../../@types/types';
 
-export function SelectLabels(props: { endpoint:string , label:string, onChange: any }) {
+export function SelectLabelsCategory(props: { endpoint:string , label:string, onChange: any }) {
 
    const ITEM_HEIGHT = 48;
    const ITEM_PADDING_TOP = 8;
