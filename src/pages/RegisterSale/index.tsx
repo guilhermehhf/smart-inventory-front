@@ -12,6 +12,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { TextField } from "@mui/material";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { PartialSale } from "../../components/PartialSale";
 
 const regex2 = new Regex();
 
@@ -65,7 +66,7 @@ export function RegisterSale() {
   return (
     <Container
       component="main"
-      maxWidth="sm"
+      maxWidth="md"
       sx={{
         display: "flex",
         flex: 1,
@@ -107,6 +108,9 @@ export function RegisterSale() {
                 
             />
           </LocalizationProvider>
+          
+        <PartialSale/>
+          
           <Button
             sx={{ mt: 3, mb: 2 }}
             variant="contained"

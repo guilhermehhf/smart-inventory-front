@@ -18,6 +18,7 @@ export interface Categoria {
 }
 
 export interface Venda {
+    _id: number
     comprador: string;
     dataVenda: Date;
     vendasParciais: VendaParcial[];
@@ -26,12 +27,13 @@ export interface Venda {
 }
 
 export interface Estoque {
+    _id: number
     categorias: Categoria[];
     totalDeProdutos: number;
 }
 
 export interface VendaParcial {
-    id: number;
+    _id: number;
     codigoDoProduto: string;
     categoriaDoProduto: string;
     refDoProduto: Produto;
@@ -46,7 +48,8 @@ export interface VendaParcial {
 }
 
 export interface Remessa {
-    produto: Produto;
+    _id: number
+    refProduto: Produto;
     qtdComprada: number;
     qtdAtual: number;
     dataDeAquisição: Date;
