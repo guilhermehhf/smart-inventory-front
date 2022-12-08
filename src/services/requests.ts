@@ -55,3 +55,8 @@ export async function postRequest(endpoint: string) {
     return await api.post(endpoint, {
     })
 }
+
+export async function getRequestByName(endpoint: string,query:string) {
+    return await api.get(endpoint+query)
+}
+

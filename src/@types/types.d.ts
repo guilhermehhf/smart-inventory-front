@@ -2,7 +2,7 @@ export interface Produto {
     _id: number;
     codigoDoProduto: string;
     nome: string;
-    categoriaRef: Categoria;
+    categoriaReferencia: Categoria;
     categoriaProduto: string;
     marca: string;
 }
