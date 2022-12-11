@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
@@ -60,17 +60,7 @@ export function PartialSale() {
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-          placeContent: "center",
-          alignItems: "center",
-          padding: "40px",
-          gap: 0.5
-        }}
-      >
+        <Typography variant="h6">Vendas Parciais:</Typography>
         {inputFields.map((input, index) => {
           return (
             <Box
@@ -80,15 +70,12 @@ export function PartialSale() {
                 flex: 1,
                 placeContent: "center",
                 alignItems: "center",
-                border: 1.5,
-                borderRadius: 4,
-                borderColor: "#000",
-                bgcolor: "#fff",
+                
                 gap: 0.5,
                 key:{index}
               }}
               >
-                <SelectLabelsShipment endpoint='/shipment/' index={index} label='Produtos' onChange={onChangeShipment}/>
+                <SelectLabelsShipment endpoint='/shipment/' index={index} label='Produto' onChange={onChangeShipment}/>
                 <TextField
                   margin="normal"
                   required
@@ -102,11 +89,14 @@ export function PartialSale() {
                   }
                   type="number"
                 />
+                
                 <TextField
                   margin="normal"
                   required
                   label="Preço"
                   id="preço"
+                  inputProps={{ min: "0", max: "10" }}
+                  fullWidth
                   onChange={(ev) =>
                     handleFormChange(
                       index,
@@ -124,7 +114,7 @@ export function PartialSale() {
               </Box>
           );
         })}
-      </Box>
+
       <Button
         sx={{ mt: 3, mb: 2 }}
         variant="contained"
