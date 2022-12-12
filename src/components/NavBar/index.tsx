@@ -44,6 +44,11 @@ export const NavBar: React.FunctionComponent = () => {
       icon: <PaidIcon/>,
       link: "/ListProduct",
     },
+    {
+    title: "Lista de Vendas",
+    icon: <PaidIcon/>,
+    link: "/ListSales",
+    },
   ];
   return (
     <>

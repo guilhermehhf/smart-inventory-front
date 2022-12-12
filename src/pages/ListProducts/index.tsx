@@ -31,8 +31,7 @@ export   function ListProducts(){
 
    async function fetchListProducts(){
        const  response =  (await getRequestList('products/')).data
-       const teste=  (await getRequestByName('products/find/', "sup")).data
-       console.log( teste)
+       console.log(response)
        setListProducts(response)
     } 
 

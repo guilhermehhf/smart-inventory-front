@@ -16,6 +16,7 @@ import { RegisterSale } from "./pages/RegisterSale"
 import { RegisterCategory } from "./pages/RegisterCategory";
 import { RegisterShipment } from "./pages/RegisterShipment";
 import { ListProducts}  from "./pages/ListProducts";
+import { ListSales } from "./pages/ListSales";
 
 export function AppRoutes() {
 
@@ -32,6 +33,7 @@ export function AppRoutes() {
             <Route path="/register/category" element={<RegisterCategory/>} />
             <Route path="/register/shipment" element={<RegisterShipment/>} />
             <Route path="/ListProduct" element={<ListProducts/>} />
+            <Route path="/ListSales" element={<ListSales/>} />
 
           </Route>
         </Routes>
