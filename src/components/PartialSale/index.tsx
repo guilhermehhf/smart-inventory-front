@@ -1,67 +1,24 @@
-import { Box, Typography } from "@mui/material";
+import { Box, SelectChangeEvent, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
 import { SelectLabelsShipment } from "../SelectItemShipment";
 
-type PartialSalesProps = {
-  remessa: string;
-  quantidavendida: number;
-  preço?: number;
-};
+
 interface PartialSales {
   remessa: string;
-  quantidavendida: number;
+  quantidadevendida: number;
   preço?: number;
 }
 
 // props: PartialSalesProps
-export function PartialSale() {
-  const [inputFields, setInputFields] = useState<PartialSales[]>([
-    { remessa: "", quantidavendida: 0, preço: 0 },
-  ]);
-
-  const handleFormChange = (
-    index: number,
-    event: React.FormEvent<HTMLInputElement>
-  ) => {
-    let { id, value } = event.currentTarget;
-    let data = [...inputFields] as any;
-
-    data[index][id] = value;
-    setInputFields(data);
-    console.log(index, id, value);
-    console.log(inputFields);
-  };
-
-  const onChangeShipment = (index: number,event: React.FormEvent<HTMLInputElement>) => {
-    let { id, value } = event.currentTarget;
-    let data = [...inputFields] as any;
-
-    data[index][id] = value;
-    setInputFields(data);
-    console.log(index, id, value);
-    console.log(inputFields);
-  };
-
-  const addFields = () => {
-    console.log("tentando adicionar fields");
-    let newfield = { remessa: "", quantidavendida: 0, preço: 0 };
-
-    setInputFields([...inputFields, newfield]);
-  };
-
-  const removeFields = (index: number) => {
-    console.log(index);
-    let data = [...inputFields];
-    data.splice(index, 1);
-    setInputFields(data);
-  };
+export function PartialSale(props:{handleFormChange:any, onChangeShipment: any,addFields: any, removeFields:any, inputFields: any[]}) {
+  
 
   return (
     <>
         <Typography variant="h6">Vendas Parciais:</Typography>
-        {inputFields.map((input, index) => {
+        {props.inputFields.map((input, index) => {
           return (
             <Box
               sx={{
@@ -75,14 +32,15 @@ export function PartialSale() {
                 key:{index}
               }}
               >
-                <SelectLabelsShipment endpoint='/shipment/' index={index} label='Produto' onChange={onChangeShipment}/>
+                <SelectLabelsShipment endpoint='/shipment/' index={index} label='Produto' onChange={(ev: SelectChangeEvent) => props.onChangeShipment(index,ev)}/>
                 <TextField
                   margin="normal"
                   required
                   label="Quantidade Vendida"
-                  id="quantidadevendida"
+                  id="qtdVendida"
+                  fullWidth
                   onChange={(ev) =>
-                    handleFormChange(
+                    props.handleFormChange(
                       index,
                       ev as React.ChangeEvent<HTMLInputElement>
                     )
@@ -94,11 +52,11 @@ export function PartialSale() {
                   margin="normal"
                   required
                   label="Preço"
-                  id="preço"
+                  id="valorCompraProdutoUnit"
                   inputProps={{ min: "0", max: "10" }}
                   fullWidth
                   onChange={(ev) =>
-                    handleFormChange(
+                    props.handleFormChange(
                       index,
                       ev as React.ChangeEvent<HTMLInputElement>
                     )
@@ -109,7 +67,7 @@ export function PartialSale() {
                   sx={{ mt: 3, mb: 2 }}
                   variant="contained"
                   color='error'
-                  onClick= {() => removeFields(index)}
+                  onClick= {() => props.removeFields(index)}
                 >X</Button>
               </Box>
           );
@@ -119,7 +77,7 @@ export function PartialSale() {
         sx={{ mt: 3, mb: 2 }}
         variant="contained"
         color="success"
-        onClick= {addFields}
+        onClick= {props.addFields}
       >Adicionar mais...</Button>
     </>
   );

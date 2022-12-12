@@ -52,6 +52,6 @@ export interface Remessa {
     refProduto: Produto;
     qtdComprada: number;
     qtdAtual: number;
-    dataDeAquisição: Date;
+    dataAquisicao: Date;
     precoUnit: number;
 }

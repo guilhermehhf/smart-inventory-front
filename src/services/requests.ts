@@ -50,6 +50,14 @@ export async function postRequestShipment( produto_id: string, qtdComprada: numb
         "precoUnit": precoUnid,
     })
 }
+export async function postRequestSale( comprador: string,  data: Date, vendaParciais: any[]) {
+    console.log(comprador,data,vendaParciais)
+    return await api.post('/sales/', {
+        "comprador": comprador,
+        "dataVenda": data,
+        "vendas": vendaParciais
+    })
+}
 
 export async function postRequest(endpoint: string) {
     return await api.post(endpoint, {

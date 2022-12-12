@@ -33,6 +33,7 @@ export function RegisterProduct() {
 
    function onChangeCategoria(ev: SelectChangeEvent) {
       console.log(ev.target.value)
+      console.log(ev)
       setCampos({ ...campos, ['categoria']: ev.target.value })
    }
 
@@ -77,7 +78,7 @@ export function RegisterProduct() {
                   bgcolor: '#fff'
                }}
             >
-               <Typography variant='h5'>Register Product</Typography>
+               <Typography variant='h5'>Registrar Produto</Typography>
                <Box
                   onSubmit={onSubmit}
                   component="form"
@@ -89,7 +90,7 @@ export function RegisterProduct() {
                   <Campo text='Nome' onChange={onChange} />
                   <SelectLabelsCategory endpoint='/inventoryCategory/' label='Categorias' onChange={onChangeCategoria} />
                   <Campo text='Marca' onChange={onChange} />
-                  <Button sx={{ mt: 3, mb: 2 }} variant="contained" type="submit" fullWidth>Register</Button>
+                  <Button sx={{ mt: 3, mb: 2 }} variant="contained" type="submit" fullWidth>Cadastrar</Button>
                </Box>
             </Box>
             <SnackAlert open={open} setOpen={setOpen} message={snack.message} type={snack.type} />

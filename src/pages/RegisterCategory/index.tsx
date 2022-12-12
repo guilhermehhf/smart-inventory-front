@@ -17,7 +17,7 @@ export function RegisterCategory() {
       type: ''
    })
    const [campos, setCampos] = useState({
-      name: '',
+      nome: '',
    })
 
    function onChange(ev: React.FormEvent<HTMLInputElement>) {
@@ -30,10 +30,10 @@ export function RegisterCategory() {
    function onSubmit(ev: React.FormEvent<HTMLFormElement>) {
       ev.preventDefault()
       console.log(campos)
-      const nameTest = regex2.minMaxTest(4,25,campos['name'])
+      const nameTest = regex2.minMaxTest(4,25,campos['nome'])
 
       if (nameTest) {
-        postRequestCategory(campos.name)
+        postRequestCategory(campos.nome)
           .then((response) => {
             console.log("categoria: ", response.data);
             setSnack({ message: 'Categoria adicionada com sucesso!', type: 'success' })
@@ -64,7 +64,7 @@ export function RegisterCategory() {
                   bgcolor: '#fff'
                }}
             >
-               <Typography variant='h5'>Register Category</Typography>
+               <Typography variant='h5'>Registrar Categoria</Typography>
                <Box
                   onSubmit={onSubmit}
                   component="form"
@@ -72,8 +72,8 @@ export function RegisterCategory() {
                   noValidate
                   autoComplete="off"
                >
-                  <Campo text='Name' onChange={onChange} />
-                  <Button sx={{ mt: 3, mb: 2 }} variant="contained" type="submit" fullWidth>Register</Button>
+                  <Campo text='Nome' onChange={onChange} />
+                  <Button sx={{ mt: 3, mb: 2 }} variant="contained" type="submit" fullWidth>Cadastrar</Button>
                </Box>
             </Box>
             <SnackAlert open={open} setOpen={setOpen} message={snack.message} type={snack.type} />

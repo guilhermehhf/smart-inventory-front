@@ -13,8 +13,22 @@ import { TextField } from "@mui/material";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { PartialSale } from "../../components/PartialSale";
+import { SelectChangeEvent } from "@mui/material/Select";
+import { postRequestSale } from "../../services/requests";
 
 const regex2 = new Regex();
+interface PartialSales {
+  refDaRemessa: string;
+  qtdVendida: number;
+  valorCompraProdutoUnit?: number;
+}
+
+
+interface Sale{
+  comprador: string;
+  data: Date;
+  partialsales: PartialSales[]
+}
 
 export function RegisterSale() {
   var today = new Date();
@@ -32,36 +46,87 @@ export function RegisterSale() {
     message: "",
     type: "",
   });
-  const [campos, setCampos] = useState({
-    name: "",
-    quantity: "",
-    type: "",
+  const [sale, setSale] = useState<Sale>({
+    comprador: "",
+    data: new Date,
+    partialsales: [{ refDaRemessa: "", qtdVendida: 0, valorCompraProdutoUnit: 0 }]
   });
 
   function onChange(ev: React.FormEvent<HTMLInputElement>) {
     let { id, value } = ev.currentTarget;
     
-    setCampos({ ...campos, [id]: value });
-    console.log(campos);
+    setSale({ ...sale, [id]: value });
+    console.log(sale);
   }
 
   function onSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
-    console.log(campos);
-    const nameTest = regex2.emailTest(campos["name"]);
-    const quantityTest = regex2.minMaxTest(6, 12, campos["quantity"]);
-    const typeTest = regex2.minMaxTest(6, 12, campos["type"]);
+    console.log(sale);
 
-    if (nameTest && quantityTest && typeTest) {
-      setSnack({ message: "Produto adicionado com sucesso!", type: "success" });
-    } else {
-      setSnack({
-        message: "Todos os campos precisam ser preenchidos",
-        type: "error",
-      });
-    }
+    
+    postRequestSale(sale.comprador, sale.data, sale.partialsales)
+        .then((response) => {
+          console.log("Venda: ", response.data);
+          setSnack({ message: 'Venda adicionada com sucesso!', type: 'success' })
+        })
+        .catch((error) =>{
+          setSnack({ message: 'Houve um erro com o banco de dados e a venda não foi adicionada!', type: 'error' })
+          console.log(error)
+        } );
+
     setOpen(true);
   }
+    
+
+
+// ################ ################ ################ ################ ################
+
+  const [inputFields, setInputFields] = useState<PartialSales[]>([
+    { refDaRemessa: "", qtdVendida: 0, valorCompraProdutoUnit: 0 },
+  ]);
+
+  const handleFormChange = (
+    index: number,
+    event: React.FormEvent<HTMLInputElement>
+  ) => {
+    let { id, value } = event.currentTarget;
+    let data = [...sale.partialsales] as any
+
+    data[index][id] = value;
+    setSale({...sale, ['partialsales']: data})
+    console.log(index, id, value);
+  };
+
+  const onChangeShipment = (index: number,event: SelectChangeEvent) => {
+    let { value } = event.target;
+    let data = [...sale.partialsales] as any
+
+    data[index]['refDaRemessa'] = value;
+    setSale({...sale, ['partialsales']: data})
+  };
+
+  const addFields = () => {
+    console.log("tentando adicionar fields");
+    let newfield = { refDaRemessa: "", qtdVendida: 0, valorCompraProdutoUnit: 0 };
+    
+    setSale({...sale, ['partialsales']: [...sale.partialsales, newfield]});
+    console.log(sale)
+    
+  };
+
+  const removeFields = (index: number) => {
+    console.log(index);
+
+    let data = [...sale.partialsales] as any
+    data.splice(index, 1);
+    setSale({...sale, ['partialsales']: data})
+  };
+
+
+ // ################ ################ ################ ################ ################ ################ ################
+
+
+
 
   return (
     <Container
@@ -89,7 +154,7 @@ export function RegisterSale() {
           bgcolor: "#fff",
         }}
       >
-        <Typography variant="h5">Register Sale</Typography>
+        <Typography variant="h5">Registrar Venda</Typography>
         <Box
           onSubmit={onSubmit}
           component="form"
@@ -109,7 +174,7 @@ export function RegisterSale() {
             />
           </LocalizationProvider>
           
-        <PartialSale/>
+        <PartialSale handleFormChange = {handleFormChange} onChangeShipment={onChangeShipment} addFields={addFields} removeFields={removeFields} inputFields={sale.partialsales}/>
           
           <Button
             sx={{ mt: 3, mb: 2 }}
@@ -117,7 +182,7 @@ export function RegisterSale() {
             type="submit"
             fullWidth
           >
-            Register
+            Cadastrar
           </Button>
         </Box>
       </Box>

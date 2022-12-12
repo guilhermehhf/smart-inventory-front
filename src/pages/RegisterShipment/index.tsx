@@ -40,55 +40,6 @@ export function RegisterShipment() {
     dayjs(today.getDay()+"/"+today.getMonth()+"/"+today.getFullYear())
   );
   
-
-  // useEffect(() => {
-  //   async function apiCalls() {
-  //     getRequestList(`/inventoryCategory/`)
-  //       .then((response) => {
-  //         console.log("categorias: ", response.data);
-  //         setCategorias(response.data);
-  //       })
-  //       .catch((error) => console.log(error));
-  //   }
-  //   apiCalls();
-    
-  // }, []);
-
-
-
-  // let categoriaInput = ''
-  // let categoriaPosMatch=[];
-  // useEffect(() => {
-  //   if(categorias){
-  //     for(let i=0; categorias.length>i;i++){
-  //       let res = categorias[i].nome.startsWith(categoriaInput)
-  //       if(res){
-  //           categoriaPosMatch.push(i);
-  //       }
-  //     }
-  //   }
-  // }, [categoriaInput]);
-
-
-
-  // let productInput = ''
-  // let productPosMatch=[];
-  // useEffect(() => {
-  //   if(categorias){
-  //     for(let i=0; categorias.length>i;i++){
-  //       let res = categorias[i].nome.startsWith(productInput)
-  //       if(res){
-  //         productPosMatch.push(i);
-  //       }
-  //     }
-  //   }
-  // }, [productInput]);
-
-
-
-
-
-  
   const handleChange = (newValue: Dayjs | null) => {
     setValue(newValue);
   };
@@ -158,7 +109,7 @@ export function RegisterShipment() {
           bgcolor: "#fff",
         }}
       >
-        <Typography variant="h5">Register Shipment</Typography>
+        <Typography variant="h5">Registrar Remessa</Typography>
         <Box
           onSubmit={onSubmit}
           component="form"
@@ -172,7 +123,7 @@ export function RegisterShipment() {
           <Campo text="Quantidade Atual" onChange={onChange} type="number"/>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DesktopDatePicker
-                label="Date"
+                label="Data"
                 inputFormat="MM/DD/YYYY"
                 value={value}
                 onChange={handleChange}
@@ -185,7 +136,7 @@ export function RegisterShipment() {
             type="submit"
             fullWidth
           >
-            Register
+            Cadastrar
           </Button>
             
         </Box>

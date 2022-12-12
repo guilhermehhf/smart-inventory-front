@@ -55,13 +55,11 @@ export function SelectLabelsShipment(props: { endpoint:string, index: number, la
                </MenuItem>
                {data && (
                   data.map(element=>(
-                     <MenuItem key={props.index+element._id}value={element._id}>{element.refProduto.nome}</MenuItem>
+                     <MenuItem key={props.index+element._id}value={element._id}>{element.refProduto.nome+" "+ element.dataAquisicao.toString().split('T')[0]}</MenuItem>
                   ))
                )}
             </Select>
          </FormControl>
-      
-         
       </>
    );
 }
